@@ -1,6 +1,7 @@
 export interface Tokens {
   accessToken: string;
   refreshToken: string;
+  user: User;
 }
 
 export interface User {

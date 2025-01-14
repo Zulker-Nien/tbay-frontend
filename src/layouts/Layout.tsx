@@ -1,26 +1,23 @@
 import { useAuthStore } from "../store/authStore";
 import { Navbar } from "../components/navbar/Navbar";
-import { HoverCard, Group, Button, Text, Avatar } from "@mantine/core";
+import { HoverCard, Button, Text, Avatar } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
 import { Outlet, useNavigate } from "react-router-dom";
+import { useAuthRefresh } from "../hooks/useAuthRefresh";
 
 export const Layout = () => {
   const { isAuthenticated, user, clearTokens } = useAuthStore();
   const navigate = useNavigate();
+  useAuthRefresh();
+
   const authButtons = isAuthenticated ? (
-    <HoverCard
-      // width={200}
-      position="bottom"
-      radius="md"
-      shadow="md"
-      withinPortal
-    >
+    <HoverCard position="bottom" radius="md" shadow="md" withinPortal>
       <HoverCard.Target>
-        <Group gap="xs">
-          <Avatar size={20} radius="xl" />
+        <Button variant="subtle">
+          <Avatar size={"sm"} radius="xl" mr={"xs"} />
           <Text size="sm">Hi, {user?.firstName}</Text>
           <IconChevronDown size={12} />
-        </Group>
+        </Button>
       </HoverCard.Target>
       <HoverCard.Dropdown p={"xs"}>
         <Button

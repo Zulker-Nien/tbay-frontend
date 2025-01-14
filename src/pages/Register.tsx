@@ -1,5 +1,4 @@
 import { useMutation } from "@apollo/client";
-import { useNavigate } from "react-router-dom";
 import {
   TextInput,
   PasswordInput,
@@ -20,7 +19,6 @@ interface FormValues {
 }
 
 export const Register = () => {
-  const navigate = useNavigate();
   const [signUp, { loading }] = useMutation(SIGN_UP);
   const setTokens = useAuthStore((state) => state.setTokens);
 
@@ -65,8 +63,7 @@ export const Register = () => {
         data.signUp.refreshToken,
         data.signUp.user
       );
-
-      navigate("/dashboard", { replace: true });
+      
     } catch (error) {
       console.error("Registration failed:", error);
       if (error instanceof Error) {

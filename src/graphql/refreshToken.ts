@@ -1,23 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { gql } from "@apollo/client";
 import { Tokens } from "../types/auth.types";
 import { client } from "./apollo-client";
-
-const REFRESH_TOKEN_MUTATION = gql`
-  mutation RefreshToken($refreshToken: String!) {
-    refreshToken(refreshToken: $refreshToken) {
-      accessToken
-      refreshToken
-    }
-  }
-`;
+import { REFRESH_TOKEN } from "./mutation";
 
 export const refreshAccessToken = async (
   refreshToken: string
 ): Promise<Tokens> => {
   try {
     const { data } = await client.mutate({
-      mutation: REFRESH_TOKEN_MUTATION,
+      mutation: REFRESH_TOKEN,
       variables: { refreshToken },
     });
     return data.refreshToken;

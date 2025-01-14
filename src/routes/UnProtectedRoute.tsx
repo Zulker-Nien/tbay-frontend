@@ -9,7 +9,6 @@ export const UnProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { isAuthenticated } = useAuthStore();
   const location = useLocation();
 
-  console.log(location.pathname);
 
   if (
     isAuthenticated &&
