@@ -85,11 +85,44 @@ export const VIEW_PRODUCTS_BY_USER = gql`
     }
   }
 `;
+
 export const FETCH_ALL_CATEGORIES = gql`
   query FetchAllCategories {
     fetchAllCategories {
       id
       name
+    }
+  }
+`;
+
+export const FETCH_CART = gql`
+  query ViewCart {
+    getCart {
+      id
+      userId
+      totalPrice
+      items {
+        id
+        cartId
+        productId
+        price
+        quantity
+        itemType
+        startDate
+        endDate
+        product {
+          id
+          title
+          description
+          available
+          quantity
+          averageRating
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
     }
   }
 `;

@@ -112,3 +112,100 @@ export const DELETE_PRODUCT = gql`
     deleteProduct(productId: $productId)
   }
 `;
+
+export const ADD_BUY_TO_CART = gql`
+  mutation AddBUYToCart($input: AddToCartDto!) {
+    addToCart(input: $input) {
+      id
+      itemType
+      quantity
+      product {
+        id
+        title
+        saleDetails {
+          price
+        }
+      }
+    }
+  }
+`;
+
+export const ADD_RENT_TO_CART = gql`
+  mutation AddRENTToCart($input: AddToCartDto!) {
+    addToCart(input: $input) {
+      id
+      itemType
+      startDate
+      endDate
+      quantity
+      product {
+        id
+        title
+        rentDetails {
+          price
+        }
+      }
+    }
+  }
+`;
+
+export const REMOVE_FROM_CART = gql`
+  mutation RemoveFromCart($cartId: Int!) {
+    removeFromCart(cartId: $cartId) {
+      id
+      totalPrice
+      items {
+        id
+        quantity
+        price
+        itemType
+        product {
+          id
+          title
+          description
+        }
+        startDate
+        endDate
+      }
+    }
+  }
+`;
+
+export const PLACE_ORDER = gql`
+  mutation CreateOrder($input: Int!) {
+    createOrder(input: $input) {
+      id
+      totalAmount
+      createdAt
+      items {
+        id
+        price
+        quantity
+        orderType
+        startDate
+        endDate
+        product {
+          id
+          title
+          description
+        }
+        buyer {
+          id
+          email
+        }
+        seller {
+          id
+          email
+        }
+        renter {
+          id
+          email
+        }
+        lender {
+          id
+          email
+        }
+      }
+    }
+  }
+`;

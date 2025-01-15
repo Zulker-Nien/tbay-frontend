@@ -4,16 +4,18 @@ import {
   Button,
   Divider,
   Drawer,
+  Flex,
   Group,
   ScrollArea,
   useMantineColorScheme,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { MantineLogo } from "@mantinex/mantine-logo";
 import { NavbarProps } from "../../types/auth.types";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
-import { IconMoon, IconShoppingCart, IconSun } from "@tabler/icons-react";
+import { Icon24Hours, IconMoon, IconSun } from "@tabler/icons-react";
+import CartDrawer from "../cart/CartDrawer/CartDrawer";
+import { Text } from "@mantine/core";
 
 export function Navbar({ authButtons }: NavbarProps) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
@@ -27,15 +29,25 @@ export function Navbar({ authButtons }: NavbarProps) {
   const { setColorScheme, colorScheme } = useMantineColorScheme();
 
   return (
-    <Box pb={20}>
+    <Box>
       <Group
         justify="space-between"
         h="100%"
         px={{ base: 20, lg: 100 }}
-        py={5}
+        py={20}
         style={{ borderBottom: "2px solid #3b5bdb" }}
       >
-        <MantineLogo size={30} />
+        <Flex>
+          <Icon24Hours size={30} color="orange" />
+          <Text
+            fw={"bolder"}
+            size={"xl"}
+            variant={"gradient"}
+            gradient={{ from: "blue", to: "cyan", deg: 90 }}
+          >
+            TBAY
+          </Text>
+        </Flex>
         <Group h="100%" gap={10} visibleFrom="sm">
           <Button variant="subtle" onClick={() => handleClick("")}>
             Home
@@ -47,9 +59,7 @@ export function Navbar({ authButtons }: NavbarProps) {
           )}
         </Group>
         <Group visibleFrom="sm">
-          <Button bg={"indigo"} radius={"xl"}>
-            <IconShoppingCart />
-          </Button>
+          <CartDrawer />
           {colorScheme === "light" ? (
             <Button
               bg={"yellow"}
