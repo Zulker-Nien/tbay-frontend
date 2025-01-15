@@ -106,13 +106,18 @@ export const ProductCard = ({ product }: { product: IProduct }) => {
           <Flex gap={"sm"}>
             {product.saleDetails?.price && (
               <Text size="md" c={"blue.8"} fw={700}>
-                Buy - ${product.saleDetails.price !== null}
+                Buy - $
+                {product.saleDetails.price !== null &&
+                  product.saleDetails.price}
               </Text>
             )}
             {product.available === "BOTH" && <Text size="md">or</Text>}
             {product.rentDetails?.price && (
               <Text size="md" c="indigo.6" fw={700}>
-                Rent - ${product.rentDetails.price} / day
+                Rent - $
+                {product.rentDetails.price !== null &&
+                  product.rentDetails.price}{" "}
+                / day
               </Text>
             )}
           </Flex>

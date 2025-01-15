@@ -1,10 +1,14 @@
 import { Container, Group, Stack, Tabs } from "@mantine/core";
 import MyProducts from "../components/dashboardTabs/myProducts/MyProducts";
 import ProductCreate from "../components/product/create/ProductCreate";
+import BoughtProducts from "../components/dashboardTabs/boughtProducts/BoughtProducts";
+import SoldProducts from "../components/dashboardTabs/soldProducts/SoldProducts";
+import RentedProducts from "../components/dashboardTabs/rentedProducts/RentedProducts";
+import BorrowedProducts from "../components/dashboardTabs/borrowedProducts/BorrowedProducts";
 
 function Dashboard() {
   return (
-    <Container size={"xl"}>
+    <Container size={"xl"} mt={"xl"}>
       <Stack>
         <ProductCreate />
         <Tabs defaultValue="my_products">
@@ -13,7 +17,7 @@ function Dashboard() {
             <Tabs.Tab value="bought">Bought Products</Tabs.Tab>
             <Tabs.Tab value="sold">Sold Products</Tabs.Tab>
             <Tabs.Tab value="rentedOut">Rented Out Products</Tabs.Tab>
-            <Tabs.Tab value="lendedIn">Lended In Products</Tabs.Tab>
+            <Tabs.Tab value="lendedIn">Borrowed Products</Tabs.Tab>
           </Tabs.List>
 
           <Group pt={20}>
@@ -27,25 +31,25 @@ function Dashboard() {
               value="bought"
               w={{ base: "98vw", lg: "98vw", xl: "80vw" }}
             >
-              Bought Products
+              <BoughtProducts />
             </Tabs.Panel>
             <Tabs.Panel
               value="sold"
               w={{ base: "98vw", lg: "98vw", xl: "80vw" }}
             >
-              Sold Products
+              <SoldProducts />
             </Tabs.Panel>
             <Tabs.Panel
               value="rentedOut"
               w={{ base: "98vw", lg: "98vw", xl: "80vw" }}
             >
-              Rented Out Products
+              <RentedProducts />
             </Tabs.Panel>
             <Tabs.Panel
               value="lendedIn"
               w={{ base: "98vw", lg: "98vw", xl: "80vw" }}
             >
-              Lended In Products
+              <BorrowedProducts />
             </Tabs.Panel>
           </Group>
         </Tabs>

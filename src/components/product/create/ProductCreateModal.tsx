@@ -227,7 +227,7 @@ const ProductCreateModal = ({ onClose }: { onClose: () => void }) => {
           description="Product details"
           allowStepSelect={active > 0 && stepsValidation.basicInfo}
         >
-          <Container mt="xl" h={"70vh"}>
+          <Container mt="xl" h={{ base: "60vh", sm: "70vh" }}>
             <Stack>
               <TextInput
                 label="Title"
@@ -250,7 +250,7 @@ const ProductCreateModal = ({ onClose }: { onClose: () => void }) => {
           description="Select categories"
           allowStepSelect={active > 1 && stepsValidation.categories}
         >
-          <Container mt="xl" h={"70vh"}>
+          <Container mt="xl" h={{ base: "60vh", sm: "70vh" }}>
             <Stack>
               <MultiSelect
                 label="Categories"
@@ -278,7 +278,7 @@ const ProductCreateModal = ({ onClose }: { onClose: () => void }) => {
           description="Set availability and pricing"
           allowStepSelect={active > 2 && stepsValidation.pricing}
         >
-          <Container mt="xl" h={"70vh"}>
+          <Container mt="xl" h={{ base: "60vh", sm: "70vh" }}>
             <Stack mt="xl">
               <Select
                 label="Availability"
@@ -320,7 +320,7 @@ const ProductCreateModal = ({ onClose }: { onClose: () => void }) => {
           description="Review details"
           allowStepSelect={canAccessReview}
         >
-          <Container mt="xl" h={"70vh"}>
+          <Container mt="xl" h={{ base: "60vh", sm: "70vh" }}>
             <Stack>
               {!canAccessReview ? (
                 <Alert title="Complete Previous Steps" color="yellow">
@@ -357,7 +357,7 @@ const ProductCreateModal = ({ onClose }: { onClose: () => void }) => {
                       </Text>
                     )}
                   </Stack>
-                  <Center mt={"xl"}>
+                  <Center mt={{ base: "xs", xl: "xl" }}>
                     <Checkbox
                       checked={isReviewed}
                       color="lime.4"
