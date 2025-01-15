@@ -98,7 +98,6 @@ export const useProductMutation = () => {
             });
           }
 
-          // Update individual product in cache
           cache.modify({
             id: cache.identify({ __typename: "Product", id: values.id }),
             fields: {
@@ -112,40 +111,35 @@ export const useProductMutation = () => {
             },
           });
         },
-        // Optimistic response for immediate UI update
         optimisticResponse: {
           updateProduct: {
-            // __typename: "Product",
             id: values.id,
             title: values.title.trim(),
             description: values.description.trim(),
             available: values.available,
             quantity: values.quantity,
-            averageRating: 0, // Default value for optimistic response
+            averageRating: 0,
             categories: values.categories.map((categoryId) => ({
               __typename: "Category",
               id: Number(categoryId),
-              name: "", // Will be updated with actual data from server
+              name: "", 
             })),
             rentDetails: {
-              // __typename: "RentDetails",
-              id: 0, // Will be updated with actual data
+              id: 0, 
               productId: values.id,
               price: values.rentDetails.price,
               createdAt: new Date(),
               updatedAt: new Date(),
             },
             saleDetails: {
-              // __typename: "SaleDetails",
-              id: 0, // Will be updated with actual data
+              id: 0,
               productId: values.id,
               price: values.saleDetails.price,
               createdAt: new Date(),
               updatedAt: new Date(),
             },
             owner: {
-              // __typename: "User",
-              id: "", // Will be updated with actual data
+              id: "",
               firstName: "",
               lastName: "",
               email: "",

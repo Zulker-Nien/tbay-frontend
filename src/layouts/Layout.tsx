@@ -1,6 +1,12 @@
 import { useAuthStore } from "../store/authStore";
 import { Navbar } from "../components/navbar/Navbar";
-import { HoverCard, Button, Text, Avatar } from "@mantine/core";
+import {
+  HoverCard,
+  Button,
+  Text,
+  Avatar,
+  Stack,
+} from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useAuthRefresh } from "../hooks/useAuthRefresh";
@@ -41,11 +47,11 @@ export const Layout = () => {
   );
 
   return (
-    <div>
+    <Stack>
       <Navbar authButtons={authButtons} />
       <main>
         <Outlet />
       </main>
-    </div>
+    </Stack>
   );
 };

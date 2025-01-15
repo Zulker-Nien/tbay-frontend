@@ -126,3 +126,51 @@ export const FETCH_CART = gql`
     }
   }
 `;
+
+export const GET_USER_ORDERS = gql`
+  query GetOrders {
+    getUserOrders {
+      id
+      totalAmount
+      createdAt
+      updatedAt
+      items {
+        id
+        price
+        quantity
+        orderType
+        startDate
+        endDate
+        product {
+          id
+          title
+          description
+          available
+          quantity
+          saleDetails {
+            price
+          }
+          rentDetails {
+            price
+          }
+        }
+        seller {
+          id
+          firstName
+        }
+        renter {
+          id
+          firstName
+        }
+        buyer {
+          id
+          firstName
+        }
+        lender {
+          id
+          firstName
+        }
+      }
+    }
+  }
+`;

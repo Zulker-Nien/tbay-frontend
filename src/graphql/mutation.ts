@@ -172,7 +172,7 @@ export const REMOVE_FROM_CART = gql`
 `;
 
 export const PLACE_ORDER = gql`
-  mutation CreateOrder($input: Int!) {
+  mutation CreateOrder($input: CreateOrderDto!) {
     createOrder(input: $input) {
       id
       totalAmount

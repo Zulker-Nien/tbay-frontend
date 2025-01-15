@@ -9,8 +9,11 @@ export const cache = new InMemoryCache({
         },
       },
     },
-    Category: {
+    category: {
       keyFields: ["id"],
+    },
+    product: {
+      keyFields: ["id", "saleDetails.price", "rentDetails.price", "quantity"],
     },
   },
 });

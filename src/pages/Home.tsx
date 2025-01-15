@@ -11,7 +11,7 @@ function Home() {
   });
   if (loading) return <div>Loading...</div>;
   return (
-    <Container size={"xl"}>
+    <Container size={"xl"} mt={"xl"}>
       <Stack>
         <ProductGrid />
       </Stack>
