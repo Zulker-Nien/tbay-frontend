@@ -1,3 +1,18 @@
+export interface ProductStore {
+  products: IProduct[];
+  userProducts: IProduct[];
+  categories: ICategory[];
+  setProducts: (products: IProduct[]) => void;
+  setUserProducts: (products: IProduct[]) => void;
+  setCategories: (categories: ICategory[]) => void;
+  selectedProduct: IProduct | null;
+  setSelectedProduct: (product: IProduct | null) => void;
+  deleteProduct: (productId: number) => void;
+  updateProduct: (updatedProduct: IProduct) => void;
+  addToProducts: (newProduct: IProduct) => void;
+  addToUserProducts: (newProduct: IProduct) => void;
+}
+
 export interface IProduct {
   id: number;
   title: string;

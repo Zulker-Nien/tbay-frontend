@@ -4,15 +4,30 @@ import { IProduct } from "../../types/product.types";
 import { VIEW_ALL_PRODUCTS } from "../../graphql/query";
 import { useProductStore } from "../../store/productStore";
 import { ProductCard } from "./ProductCard";
+import { useEffect } from "react";
+import { client } from "../../graphql/apollo-client";
 
 export const ProductGrid = () => {
   const setProducts = useProductStore((state) => state.setProducts);
   const products = useProductStore((state) => state.products);
-  const { loading } = useQuery(VIEW_ALL_PRODUCTS, {
-    onCompleted: (data) => {
-      setProducts(data.viewAllProducts);
-    },
-  });
+  const { loading, data } = useQuery<{ viewAllProducts: IProduct[] }>(
+    VIEW_ALL_PRODUCTS,
+    {
+      fetchPolicy: "cache-and-network",
+      onCompleted: (data) => {
+        setProducts(data.viewAllProducts);
+      },
+    }
+  );
+  useEffect(() => {
+    const cachedData = client.readQuery<{ viewAllProducts: IProduct[] }>({
+      query: VIEW_ALL_PRODUCTS,
+    });
+
+    if (cachedData?.viewAllProducts) {
+      setProducts(cachedData.viewAllProducts);
+    }
+  }, [setProducts, data]);
 
   if (loading) return <div>Loading...</div>;
 

@@ -16,15 +16,15 @@ import { useAuthStore } from "../../store/authStore";
 import { useProductStore } from "../../store/productStore";
 import ProductDelete from "./delete/ProductDelete";
 import ProductEdit from "./edit/ProductEdit";
-import Cart from "../cart/Cart";
 import { IProduct } from "../../types/product.types";
+import CartItem from "../cart/CartItem/CartItem";
 
-export const ProductCard = ({ product }: {product:IProduct}) => {
+export const ProductCard = ({ product }: { product: IProduct }) => {
   const { user } = useAuthStore();
   const location = useLocation();
   const isOwner = user?.id === product.owner.id;
-  const isDashboard = location.pathname === "/dashboard";
 
+  const isDashboard = location.pathname === "/dashboard";
   const { setCategories, categories } = useProductStore();
   const { loading } = useQuery(FETCH_ALL_CATEGORIES, {
     onCompleted: (data) => setCategories(data.fetchAllCategories),
@@ -38,10 +38,6 @@ export const ProductCard = ({ product }: {product:IProduct}) => {
       .filter((category): category is (typeof categories)[0] => !!category)
       .map((category) => category.name);
   }, [categories, product.categories]);
-
-  const formattedDate = useMemo(() => {
-    return new Date(product.createdAt).toLocaleDateString();
-  }, [product.createdAt]);
 
   if (loading) {
     return (
@@ -62,7 +58,7 @@ export const ProductCard = ({ product }: {product:IProduct}) => {
   return (
     <Card
       shadow="sm"
-      padding="lg"
+      padding="md"
       radius="md"
       withBorder
       w="100%"
@@ -70,66 +66,56 @@ export const ProductCard = ({ product }: {product:IProduct}) => {
         borderColor: isOwner ? "skyblue" : undefined,
       }}
     >
-      <Stack>
-        <Group justify="space-between">
-          <Group>
-            <Text size="xl" fw={700}>
-              {product.title}
-            </Text>
-            {isOwner && <Badge variant="dot">Your Product</Badge>}
-          </Group>
-          <Text c="white" fw={500} size="xs">
-            {formattedDate}
+      <Stack gap={"xs"}>
+        <Flex justify="space-between" align={"center"}>
+          <Text size="xl" fw={"bolder"} w={"50%"}>
+            {product.title}
           </Text>
-        </Group>
-
-        <Flex
-          direction={"column"}
-          gap={10}
-          mih={60}
-          justify={"flex-start"}
-          wrap={"wrap"}
-        >
-          <Text fw={500} size="sm">
-            Categories:{" "}
-          </Text>
-          {productCategories.length > 0 && (
-            <Flex gap="xs">
-              {productCategories.map((categoryName, index) => (
-                <Badge
-                  key={`${categoryName}-${index}`}
-                  variant="light"
-                  color="violet"
-                >
-                  {categoryName}
-                </Badge>
-              ))}
-            </Flex>
-          )}
+          {isOwner && <Badge variant="dot">Your Product</Badge>}
         </Flex>
-
+        {productCategories.length > 0 && (
+          <Flex gap="xs">
+            {productCategories.map((categoryName, index) => (
+              <Badge
+                key={`${categoryName}-${index}`}
+                variant="light"
+                color="violet"
+              >
+                {categoryName}
+              </Badge>
+            ))}
+          </Flex>
+        )}
         <Divider />
-
-        <Text size="sm" c="dimmed" lineClamp={2}>
-          {product.description}
-        </Text>
-
-        <Divider />
-
-        <Group justify="space-between" align="center">
-          <Flex direction="column" gap="xs">
+        {isDashboard && (
+          <Badge
+            radius={"sm"}
+            size="xl"
+            bg={product.quantity < 3 ? "red" : "green"}
+          >
+            {product.quantity} in stock
+          </Badge>
+        )}
+        <Flex direction={"column"}>
+          <Text size="sm" c="dimmed">
+            Product Description:
+          </Text>
+          <Text truncate={"end"}>{product.description}</Text>
+        </Flex>
+        <Flex justify="space-between" align={"center"}>
+          <Flex gap={"sm"}>
             {product.saleDetails?.price && (
-              <Text size="md" c="blue" fw={700}>
-                On Sale - ${product.saleDetails.price}
+              <Text size="md" c={"blue.8"} fw={700}>
+                Buy - ${product.saleDetails.price !== null}
               </Text>
             )}
+            {product.available === "BOTH" && <Text size="md">or</Text>}
             {product.rentDetails?.price && (
-              <Text size="md" c="teal" fw={700}>
-                Rent For - ${product.rentDetails.price} / day
+              <Text size="md" c="indigo.6" fw={700}>
+                Rent - ${product.rentDetails.price} / day
               </Text>
             )}
           </Flex>
-
           {isOwner ? (
             isDashboard && (
               <Group>
@@ -140,9 +126,9 @@ export const ProductCard = ({ product }: {product:IProduct}) => {
               </Group>
             )
           ) : (
-            <Cart product={product} />
+            <CartItem product={product} />
           )}
-        </Group>
+        </Flex>
       </Stack>
     </Card>
   );

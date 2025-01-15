@@ -3,6 +3,7 @@ import { MantineProvider } from "@mantine/core";
 import { BrowserRouter } from "react-router-dom";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
+import "@mantine/dates/styles.css";
 import { client } from "./graphql/apollo-client";
 import { AppRoutes } from "./routes";
 import { Notifications } from "@mantine/notifications";

@@ -7,7 +7,7 @@ import { useMemo } from "react";
 import { useProductStore } from "../../../store/productStore";
 import { editValidation } from "./utils/editValidation";
 import { FormFields } from "./FormFields";
-import { useProductMutation } from "./hooks/useProductEditMutation";
+import { useProductMutation } from "../../../hooks/useProductEditMutation";
 
 const ProductEdit = ({ product }: { product: IProduct }) => {
   const [opened, { open, close }] = useDisclosure(false);

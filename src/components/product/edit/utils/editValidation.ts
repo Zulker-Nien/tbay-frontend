@@ -3,7 +3,7 @@ import { EditFormValues } from "../../../../types/product.types";
 export const editValidation = {
   title: (value?: string) => {
     if (!value?.trim()) return "Title is required";
-    if (value.length < 4) return "Title must be at least 4 characters";
+    if (value.length < 2) return "Title must be at least 2 characters";
     if (value.length > 512) return "Title must be less than 512 characters";
     return null;
   },

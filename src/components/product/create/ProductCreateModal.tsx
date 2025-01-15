@@ -76,7 +76,7 @@ const ProductCreateModal = ({ onClose }: { onClose: () => void }) => {
     if (!title) {
       errors.title = "Title is required";
     } else if (title.length < 2) {
-      errors.title = "Title must be at least 4 characters";
+      errors.title = "Title must be at least 2 characters";
     } else if (title.length > 512) {
       errors.title = "Title must be less than 512 characters";
     }

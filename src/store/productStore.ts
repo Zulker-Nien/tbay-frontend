@@ -1,21 +1,6 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { ICategory, IProduct } from "../types/product.types";
-
-interface ProductStore {
-  products: IProduct[];
-  userProducts: IProduct[];
-  categories: ICategory[];
-  setProducts: (products: IProduct[]) => void;
-  setUserProducts: (products: IProduct[]) => void;
-  setCategories: (categories: ICategory[]) => void;
-  selectedProduct: IProduct | null;
-  setSelectedProduct: (product: IProduct | null) => void;
-  deleteProduct: (productId: number) => void;
-  updateProduct: (updatedProduct: IProduct) => void;
-  addToProducts: (newProduct: IProduct) => void;
-  addToUserProducts: (newProduct: IProduct) => void;
-}
+import { ProductStore } from "../types/product.types";
 
 export const useProductStore = create<ProductStore>()(
   devtools(
