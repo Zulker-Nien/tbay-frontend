@@ -13,7 +13,7 @@ export interface CartProps {
   product: IProduct;
 }
 
-interface CartItem {
+export interface CartItem {
   id: string;
   cartId: string;
   productId: string;

@@ -1,11 +1,10 @@
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import {
   Button,
   Drawer,
   Group,
   Stack,
   Text,
-  Card,
   Box,
   Flex,
   ScrollArea,
@@ -13,13 +12,14 @@ import {
   Divider,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconShoppingCart, IconTrash } from "@tabler/icons-react";
+import { IconShoppingCart } from "@tabler/icons-react";
 import { FETCH_CART } from "../../../graphql/query";
-import { REMOVE_FROM_CART } from "../../../graphql/mutation";
 import { CartList } from "../../../types/cart.types";
 import { useCartStore } from "../../../store/cartStore";
 import { useAuthStore } from "../../../store/authStore";
 import { useEffect } from "react";
+import { usePlaceOrder } from "../../../hooks/usePlaceOrder";
+import CartInformationCard from "./CartInformationCard";
 
 const CartDrawer = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -27,6 +27,7 @@ const CartDrawer = () => {
   const setUserCart = useCartStore((state) => state.setUserCart);
   const clearCart = useCartStore((state) => state.clearCart);
   const userCart = useCartStore((state) => state.userCart);
+  const { placeOrder, loading: orderLoading } = usePlaceOrder();
 
   const { loading, refetch, data } = useQuery<{ getCart: CartList }>(
     FETCH_CART,
@@ -53,31 +54,11 @@ const CartDrawer = () => {
       setUserCart(data.getCart);
     }
   }, [data, setUserCart]);
-
-  const [removeFromCart] = useMutation(REMOVE_FROM_CART, {
-    onCompleted: async (data) => {
-      if (data?.removeFromCart) {
-        setUserCart(data.removeFromCart);
-      }
-    },
-    onError: (error) => {
-      console.error("Error removing item from cart:", error);
-    },
-  });
-
-  const handleRemove = async (itemId: number) => {
-    try {
-      await removeFromCart({
-        variables: { cartId: itemId },
-        refetchQueries: [{ query: FETCH_CART }],
-      });
-    } catch (error) {
-      console.error("Failed to remove item:", error);
+  const handlePlaceOrder = async () => {
+    if (userCart?.id) {
+      await placeOrder(parseInt(userCart.id));
+      close();
     }
-  };
-
-  const formatDate = (date: string) => {
-    return new Date(date).toLocaleDateString();
   };
 
   if (loading && !userCart) return <div>Loading...</div>;
@@ -100,37 +81,9 @@ const CartDrawer = () => {
               </Text>
             ) : (
               <Stack>
-                {userCart.items.map((item) => (
-                  <Card key={item.id} shadow="sm" p="md" radius="md" withBorder>
-                    <Flex justify="space-between">
-                      <Box>
-                        <Text fw={500} size="lg">
-                          {item.product.title}
-                        </Text>
-                        <Text size="sm" c="dimmed" mt="xs">
-                          {item.product.description}
-                        </Text>
-                        {item.itemType === "RENTAL" && (
-                          <Text size="sm" mt="xs">
-                            {formatDate(item.startDate)} -{" "}
-                            {formatDate(item.endDate)}
-                          </Text>
-                        )}
-                        <Group mt="sm">
-                          <Text>Quantity: {item.quantity}</Text>
-                          <Text fw={500}>${item.price.toFixed(2)}</Text>
-                        </Group>
-                      </Box>
-                      <Button
-                        variant="subtle"
-                        color="red"
-                        onClick={() => handleRemove(parseInt(item.id))}
-                      >
-                        <IconTrash size={16} />
-                      </Button>
-                    </Flex>
-                  </Card>
-                ))}
+                {userCart.items.map((item) => {
+                  return <CartInformationCard item={item} />;
+                })}
               </Stack>
             )}
           </ScrollArea>
@@ -144,8 +97,9 @@ const CartDrawer = () => {
             <Button
               fullWidth
               size="md"
-              onClick={() => {}}
+              onClick={handlePlaceOrder}
               disabled={!userCart?.items?.length}
+              loading={orderLoading}
             >
               Place Order
             </Button>
