@@ -1,4 +1,4 @@
-import { ScrollArea, SimpleGrid, Text } from "@mantine/core";
+import { Flex, ScrollArea, SimpleGrid, Text } from "@mantine/core";
 import { useQuery } from "@apollo/client";
 import { IProduct } from "../../types/product.types";
 import { VIEW_ALL_PRODUCTS } from "../../graphql/query";
@@ -40,9 +40,12 @@ export const ProductGrid = () => {
             <ProductCard key={product.id} product={product} />
           ))
         ) : (
-          <Text size="xl" ta={"center"} w={"100%"} bg={"blue"}>
-            Just Launched <IconJetpackFilled /> Hang Tight.
-          </Text>
+          <Flex direction={"row"} w="100%" justify={"start"} align={"center"}>
+            <IconJetpackFilled color="lime" />
+            <Text size="xl" ta={"center"} c="indigo">
+              Just Launched. Hang Tight !
+            </Text>
+          </Flex>
         )}
       </SimpleGrid>
     </ScrollArea>
