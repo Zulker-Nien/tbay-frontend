@@ -8,6 +8,7 @@ import {
   Stack,
   Divider,
   Skeleton,
+  Button,
 } from "@mantine/core";
 import { useLocation } from "react-router-dom";
 import { useQuery } from "@apollo/client";
@@ -18,6 +19,7 @@ import ProductDelete from "./delete/ProductDelete";
 import ProductEdit from "./edit/ProductEdit";
 import { IProduct } from "../../types/product.types";
 import CartItem from "../cart/CartItem/CartItem";
+import { notifications } from "@mantine/notifications";
 
 export const ProductCard = ({ product }: { product: IProduct }) => {
   const { user } = useAuthStore();
@@ -26,6 +28,7 @@ export const ProductCard = ({ product }: { product: IProduct }) => {
 
   const isDashboard = location.pathname === "/dashboard";
   const { setCategories, categories } = useProductStore();
+  const { isAuthenticated } = useAuthStore();
   const { loading } = useQuery(FETCH_ALL_CATEGORIES, {
     onCompleted: (data) => setCategories(data.fetchAllCategories),
   });
@@ -54,6 +57,10 @@ export const ProductCard = ({ product }: { product: IProduct }) => {
       </Card>
     );
   }
+  const SaleDetails = product.saleDetails ? product.saleDetails.price : null;
+  const RentDetails = product.rentDetails
+    ? product.rentDetails.price > 0 && product.rentDetails.price
+    : null;
 
   return (
     <Card
@@ -104,22 +111,13 @@ export const ProductCard = ({ product }: { product: IProduct }) => {
         </Flex>
         <Flex justify="space-between" align={"center"}>
           <Flex gap={"sm"}>
-            {product.saleDetails?.price && (
-              <Text size="md" c={"blue.8"} fw={700}>
-                Buy - $
-                {product.saleDetails.price !== null &&
-                  product.saleDetails.price}
-              </Text>
-            )}
+            {SaleDetails && <Text size="md" c={"indigo"} fw={700}>
+              Buy: ${SaleDetails}
+            </Text>}
             {product.available === "BOTH" && <Text size="md">or</Text>}
-            {product.rentDetails?.price && (
-              <Text size="md" c="indigo.6" fw={700}>
-                Rent - $
-                {product.rentDetails.price !== null &&
-                  product.rentDetails.price}{" "}
-                / day
-              </Text>
-            )}
+            {RentDetails && <Text size="md" c="lime" fw={700}>
+              Rent: ${RentDetails}/ day
+            </Text>}
           </Flex>
           {isOwner ? (
             isDashboard && (
@@ -130,8 +128,22 @@ export const ProductCard = ({ product }: { product: IProduct }) => {
                 </Flex>
               </Group>
             )
-          ) : (
+          ) : isAuthenticated ? (
             <CartItem product={product} />
+          ) : (
+            <Button
+              bg={"dark"}
+              onClick={() => {
+                notifications.show({
+                  title: "ALMOST THERE",
+                  message: "Please Login / Register to add to cart",
+                  position: "bottom-center",
+                  color: "Red",
+                });
+              }}
+            >
+              Add to Cart
+            </Button>
           )}
         </Flex>
       </Stack>

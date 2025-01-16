@@ -1,4 +1,3 @@
-// CartItem.tsx modifications
 import { Button, Modal, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useMutation, useQuery } from "@apollo/client";
@@ -80,10 +79,9 @@ const CartItem = ({ product }: CartProps) => {
 
       close();
     } catch (error) {
-      console.error("Error adding to cart:", error);
       notifications.show({
         title: "Error",
-        message: "Failed to add product to cart",
+        message: `${error}`,
         color: "red",
       });
     }

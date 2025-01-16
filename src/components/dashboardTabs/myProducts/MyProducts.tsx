@@ -1,4 +1,4 @@
-import { ScrollArea, SimpleGrid } from "@mantine/core";
+import { ScrollArea, SimpleGrid, Text } from "@mantine/core";
 import { IProduct } from "../../../types/product.types";
 import { ProductCard } from "../../product/ProductCard";
 import { VIEW_PRODUCTS_BY_USER } from "../../../graphql/query";
@@ -25,7 +25,7 @@ const MyProducts = () => {
             <ProductCard key={product.id} product={product} />
           ))
         ) : (
-          <h1>No Products Yet</h1>
+          <Text>No Products Yet</Text>
         )}
       </SimpleGrid>
     </ScrollArea>

@@ -39,7 +39,7 @@ const BorrowedProducts = () => {
   if (loading) return <Loader />;
   if (error) return <Text c="red">Error loading bought products</Text>;
   if (!data?.getUserOrders?.length)
-    return <Text>No bought products found</Text>;
+    return <Text>No borrowed products found</Text>;
 
   const product: BorrowedProductWithAmount[] = data.getUserOrders.flatMap(
     (order: Order) =>
@@ -61,7 +61,7 @@ const BorrowedProducts = () => {
       <Stack>
         {product.map((item: BorrowedProductWithAmount, index: number) => (
           <div key={index}>
-            <Card key={item.product.id}>
+            <Card key={item.product.id} withBorder>
               <OrderDetailsCard
                 product={item.product}
                 type="Borrowed"

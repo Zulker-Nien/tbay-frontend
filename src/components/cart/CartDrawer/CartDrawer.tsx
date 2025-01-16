@@ -7,7 +7,6 @@ import {
   Text,
   Box,
   Flex,
-  ScrollArea,
   Pill,
   Divider,
 } from "@mantine/core";
@@ -74,7 +73,7 @@ const CartDrawer = () => {
         padding="md"
       >
         <Flex direction="column" h={"90vh"}>
-          <ScrollArea h="calc(80vh - 200px)">
+          {/* <ScrollArea h={"85vh"} scrollbars="y"> */}
             {!userCart?.items?.length ? (
               <Text ta="center" c="dimmed" mt="xl">
                 Your cart is empty
@@ -86,12 +85,12 @@ const CartDrawer = () => {
                 })}
               </Stack>
             )}
-          </ScrollArea>
+          {/* </ScrollArea> */}
           <Box mt="auto" pt="md">
             <Divider />
             <Group my="md">
-              <Text fw={500}>Total:</Text>
-              <Text fw={500}>${userCart?.totalPrice?.toFixed(2)}</Text>
+              <Text fw={500}>Subtotal:</Text>
+              <Text fw={500}>$ {userCart?.totalPrice?.toFixed(2)}</Text>
             </Group>
 
             <Button
@@ -110,7 +109,7 @@ const CartDrawer = () => {
       {isAuthenticated && (
         <Button variant="transparent" onClick={open}>
           <IconShoppingCart />
-          <Pill radius={"xl"} bg={"red.9"}>
+          <Pill radius={"xl"} bg={"lime.4"} c="dark">
             {userCart?.items?.length || 0}
           </Pill>
         </Button>

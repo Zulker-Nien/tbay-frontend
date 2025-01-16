@@ -12,6 +12,7 @@ import {
   Container,
   Checkbox,
   Center,
+  Textarea,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useMutation } from "@apollo/client";
@@ -51,7 +52,7 @@ const ProductCreateModal = ({ onClose }: { onClose: () => void }) => {
       notifications.show({
         title: "Error",
         position: "bottom-right",
-        message: error.message || "Failed to create product",
+        message: `${error}` || "Failed to create product",
         color: "red",
       });
     },
@@ -235,7 +236,7 @@ const ProductCreateModal = ({ onClose }: { onClose: () => void }) => {
                 {...form.getInputProps("title")}
                 required
               />
-              <TextInput
+              <Textarea
                 label="Description"
                 placeholder="Enter product description"
                 {...form.getInputProps("description")}

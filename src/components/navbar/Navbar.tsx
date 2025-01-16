@@ -38,12 +38,12 @@ export function Navbar({ authButtons }: NavbarProps) {
         style={{ borderBottom: "2px solid #3b5bdb" }}
       >
         <Flex>
-          <Icon24Hours size={30} color="orange" />
+          <Icon24Hours size={30} color="lime" />
           <Text
             fw={"bolder"}
             size={"xl"}
             variant={"gradient"}
-            gradient={{ from: "blue", to: "cyan", deg: 90 }}
+            gradient={{ from: "indigo", to: "lime", deg: 90 }}
           >
             TBAY
           </Text>
@@ -62,7 +62,7 @@ export function Navbar({ authButtons }: NavbarProps) {
           <CartDrawer />
           {colorScheme === "light" ? (
             <Button
-              bg={"yellow"}
+              bg={"gold"}
               onClick={() => setColorScheme("dark")}
               radius={"xl"}
               px={10}
@@ -71,7 +71,6 @@ export function Navbar({ authButtons }: NavbarProps) {
             </Button>
           ) : (
             <Button
-              bg={"indigo"}
               onClick={() => setColorScheme("light")}
               radius={"xl"}
               px={10}

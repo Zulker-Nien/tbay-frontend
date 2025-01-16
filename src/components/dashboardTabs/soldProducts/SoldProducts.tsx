@@ -33,8 +33,7 @@ const SoldProducts = () => {
   const { user } = useAuthStore();
   if (loading) return <Loader />;
   if (error) return <Text c="red">Error loading bought products</Text>;
-  if (!data?.getUserOrders?.length)
-    return <Text>No bought products found</Text>;
+  if (!data?.getUserOrders?.length) return <Text>No sold products found</Text>;
 
   const product: SoldProductWithAmount[] = data.getUserOrders.flatMap(
     (order: Order) =>
@@ -57,7 +56,7 @@ const SoldProducts = () => {
           console.log(item);
           return (
             <div key={index}>
-              <Card key={item.product.id}>
+              <Card key={item.product.id} withBorder>
                 <OrderDetailsCard
                   product={item.product}
                   type="Sold"

@@ -30,10 +30,12 @@ const errorLink = onError(({ graphQLErrors, operation, forward }) => {
       if (err.extensions?.code === "UNAUTHENTICATED") {
         const refreshToken = useAuthStore.getState().refreshToken;
 
-        // if (!refreshToken) {
-        //   useAuthStore.getState().clearTokens();
-        //   return;
-        // }
+        if (!refreshToken) {
+          useAuthStore.getState().clearTokens();
+          return new Observable(observer => {
+            observer.error(new Error('No refresh token available'));
+          });
+        }
 
         return new Observable((observer) => {
           client

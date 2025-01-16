@@ -31,6 +31,11 @@ export const SIGN_UP = gql`
     ) {
       accessToken
       refreshToken
+      user {
+        id
+        email
+        firstName
+      }
     }
   }
 `;
@@ -40,6 +45,11 @@ export const REFRESH_TOKEN = gql`
     refreshToken(refreshToken: $refreshToken) {
       accessToken
       refreshToken
+      user {
+        id
+        email
+        firstName
+      }
     }
   }
 `;

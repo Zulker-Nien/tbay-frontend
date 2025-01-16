@@ -56,7 +56,7 @@ const BoughtProducts = () => {
       <Stack>
         {product.map((item: BoughtProductWithAmount, index: number) => (
           <div key={index}>
-            <Card key={item.product.id}>
+            <Card key={item.product.id} withBorder>
               <OrderDetailsCard
                 product={item.product}
                 type="Bought"

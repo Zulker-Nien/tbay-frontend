@@ -22,3 +22,10 @@ export interface AuthState {
 export interface NavbarProps {
   authButtons: React.ReactNode;
 }
+
+export interface RegisterFormValues {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}

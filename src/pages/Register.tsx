@@ -5,24 +5,17 @@ import {
   Button,
   Stack,
   Container,
-  Divider,
 } from "@mantine/core";
 import { useForm, isEmail } from "@mantine/form";
 import { useAuthStore } from "../store/authStore";
 import { SIGN_UP } from "../graphql/mutation";
-
-interface FormValues {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-}
+import { RegisterFormValues } from "../types/auth.types";
 
 export const Register = () => {
   const [signUp, { loading }] = useMutation(SIGN_UP);
   const setTokens = useAuthStore((state) => state.setTokens);
 
-  const form = useForm<FormValues>({
+  const form = useForm<RegisterFormValues>({
     initialValues: {
       firstName: "",
       lastName: "",
@@ -52,7 +45,7 @@ export const Register = () => {
     },
   });
 
-  const handleSubmit = async (values: FormValues) => {
+  const handleSubmit = async (values: RegisterFormValues) => {
     try {
       const { data } = await signUp({
         variables: values,
@@ -83,7 +76,6 @@ export const Register = () => {
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Stack>
           <h1>Register</h1>
-          <Divider size={"md"} />
           <TextInput
             required
             label="First Name"

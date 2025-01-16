@@ -59,15 +59,15 @@ const CartInformationCard = ({ item }: { item: CartItem }) => {
         <Stack gap={10}>
           <Flex direction={"column"} gap={0}>
             {item.itemType === "RENT" && (
-              <Text size="md" mt="xs">
+              <Text size="sm" mt="xs">
                 Rent from {formatDate(item.startDate)} to{" "}
                 {formatDate(item.endDate)}
               </Text>
             )}
-            <Text size="md">Quantity: {item.quantity}</Text>
+            <Text size="sm">Quantity: {item.quantity}</Text>
           </Flex>
           <Flex justify={"flex-end"}>
-            <Text size={"xl"} fw={"bolder"}>
+            <Text size={"lg"} fw={"normal"}>
               Total Price: ${item.price.toFixed(2)}
             </Text>
           </Flex>

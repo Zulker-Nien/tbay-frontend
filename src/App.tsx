@@ -1,5 +1,5 @@
 import { ApolloProvider } from "@apollo/client";
-import { MantineProvider } from "@mantine/core";
+import { createTheme, MantineProvider } from "@mantine/core";
 import { BrowserRouter } from "react-router-dom";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
@@ -9,9 +9,12 @@ import { AppRoutes } from "./routes";
 import { Notifications } from "@mantine/notifications";
 
 function App() {
+  const theme = createTheme({
+    primaryColor: "indigo",
+  });
   return (
     <ApolloProvider client={client}>
-      <MantineProvider defaultColorScheme="dark">
+      <MantineProvider theme={theme} defaultColorScheme="dark">
         <Notifications />
         <BrowserRouter>
           <AppRoutes />

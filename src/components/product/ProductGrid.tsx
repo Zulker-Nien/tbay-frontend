@@ -6,6 +6,7 @@ import { useProductStore } from "../../store/productStore";
 import { ProductCard } from "./ProductCard";
 import { useEffect } from "react";
 import { client } from "../../graphql/apollo-client";
+import { IconJetpackFilled } from "@tabler/icons-react";
 
 export const ProductGrid = () => {
   const setProducts = useProductStore((state) => state.setProducts);
@@ -39,8 +40,8 @@ export const ProductGrid = () => {
             <ProductCard key={product.id} product={product} />
           ))
         ) : (
-          <Text size="xl" ta={"center"} w={"100%"}>
-            We Just Launched
+          <Text size="xl" ta={"center"} w={"100%"} bg={"blue"}>
+            Just Launched <IconJetpackFilled /> Hang Tight.
           </Text>
         )}
       </SimpleGrid>

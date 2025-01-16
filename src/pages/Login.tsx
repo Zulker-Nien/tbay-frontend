@@ -10,11 +10,7 @@ import {
 import { useForm, isEmail } from "@mantine/form";
 import { useAuthStore } from "../store/authStore";
 import { SIGN_IN } from "../graphql/mutation";
-
-interface FormValues {
-  email: string;
-  password: string;
-}
+import { RegisterFormValues } from "../types/auth.types";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -22,7 +18,7 @@ export const Login = () => {
   const [signIn, { loading }] = useMutation(SIGN_IN);
   const setTokens = useAuthStore((state) => state.setTokens);
 
-  const form = useForm<FormValues>({
+  const form = useForm<Partial<RegisterFormValues>>({
     initialValues: {
       email: "",
       password: "",
@@ -41,7 +37,7 @@ export const Login = () => {
     },
   });
 
-  const handleSubmit = async (values: FormValues) => {
+  const handleSubmit = async (values: Partial<RegisterFormValues>) => {
     try {
       const { data } = await signIn({
         variables: values,
