@@ -2,25 +2,21 @@ import { useQuery } from "@apollo/client";
 import { Card, Loader, ScrollArea, Stack, Text } from "@mantine/core";
 import { IProduct } from "../../../types/product.types";
 import OrderDetailsCard from "../OrderDetailsCard";
-import { useAuthStore } from "../../../store/authStore";
-import { GET_USER_ORDERS } from "../../../graphql/query";
+import { GET_USER_SALES } from "../../../graphql/query";
 
 interface OrderItem {
-  id: number;
   product: IProduct;
   orderType: string;
   seller: {
-    firstName: string;
     id: string;
   };
 }
 
-interface Order {
+interface Sale {
   id: number;
-  orderType: string;
-  items: OrderItem[];
+  userId: string;
   totalAmount: number;
-  createdAt: Date;
+  items: OrderItem[];
 }
 
 interface SoldProductWithAmount {
@@ -29,30 +25,28 @@ interface SoldProductWithAmount {
 }
 
 const SoldProducts = () => {
-  const { data, loading, error } = useQuery(GET_USER_ORDERS);
-  const { user } = useAuthStore();
+  const { data, loading, error } = useQuery(GET_USER_SALES);
   if (loading) return <Loader />;
   if (error) return <Text c="red">Error loading bought products</Text>;
-  if (!data?.getUserOrders?.length) return <Text>No sold products found</Text>;
+  if (!data?.getUserSales?.length) return <Text>No sold products found</Text>;
 
-  const product: SoldProductWithAmount[] = data.getUserOrders.flatMap(
-    (order: Order) =>
-      order.items
+  console.log(data);
+  const products: SoldProductWithAmount[] = data.getUserSales.flatMap(
+    (sale: Sale) =>
+      sale.items
         .filter(
           (item: OrderItem) =>
-            item.seller !== null &&
-            item.seller.id === user?.id &&
-            item.orderType === "BUY"
+            item.orderType === "BUY" || item.orderType === "BOTH"
         )
         .map((item: OrderItem) => ({
           product: item.product,
-          totalAmount: order.totalAmount,
+          totalAmount: sale.totalAmount,
         }))
   );
   return (
     <ScrollArea h="70vh">
       <Stack>
-        {product.map((item: SoldProductWithAmount, index: number) => {
+        {products.map((item: SoldProductWithAmount, index: number) => {
           console.log(item);
           return (
             <div key={index}>

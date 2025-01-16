@@ -174,3 +174,62 @@ export const GET_USER_ORDERS = gql`
     }
   }
 `;
+export const GET_USER_SALES = gql`
+  query GetUserSales {
+    getUserSales {
+      id
+      userId
+      totalAmount
+      items {
+        product {
+          id
+          title
+          description
+          available
+          quantity
+          saleDetails {
+            price
+          }
+          rentDetails {
+            price
+          }
+        }
+        seller {
+          id
+        }
+        orderType
+      }
+    }
+  }
+`;
+
+export const GET_USER_RENTALS = gql`
+  query GetUserRentals {
+    getUserRentals {
+      id
+      userId
+      totalAmount
+      items {
+        startDate
+        endDate
+        product {
+          id
+          title
+          description
+          available
+          quantity
+          saleDetails {
+            price
+          }
+          rentDetails {
+            price
+          }
+        }
+        seller {
+          id
+        }
+        orderType
+      }
+    }
+  }
+`;

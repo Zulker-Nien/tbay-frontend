@@ -2,27 +2,26 @@ import { useQuery } from "@apollo/client";
 import { Card, Loader, ScrollArea, Stack, Text } from "@mantine/core";
 import { IProduct } from "../../../types/product.types";
 import OrderDetailsCard from "../OrderDetailsCard";
-import { useAuthStore } from "../../../store/authStore";
-import { GET_USER_ORDERS } from "../../../graphql/query";
+import { GET_USER_RENTALS } from "../../../graphql/query";
 
 interface OrderItem {
-  id: number;
   product: IProduct;
   orderType: string;
   lender: {
-    firstName: string;
+    id: string;
+  };
+  renter: {
     id: string;
   };
   startDate: string;
   endDate: string;
 }
 
-interface Order {
+interface Rental {
   id: number;
-  orderType: string;
-  items: OrderItem[];
+  userId: string;
   totalAmount: number;
-  createdAt: Date;
+  items: OrderItem[];
 }
 
 interface LendedProduct {
@@ -33,27 +32,22 @@ interface LendedProduct {
 }
 
 const RentedProducts = () => {
-  const { data, loading, error } = useQuery(GET_USER_ORDERS);
-  const { user } = useAuthStore();
+  const { data, loading, error } = useQuery(GET_USER_RENTALS);
   if (loading) return <Loader />;
-  if (error) return <Text c="red">Error loading bought products</Text>;
-  if (!data?.getUserOrders?.length)
+  if (error) return <Text c="red">Error loading rentals</Text>;
+  if (!data?.getUserRentals?.length)
     return <Text>No rented products found</Text>;
 
-  const product: LendedProduct[] = data.getUserOrders.flatMap((order: Order) =>
-    order.items
-      .filter(
-        (item: OrderItem) =>
-          item.lender !== null &&
-          item.lender.id === user?.id &&
-          item.orderType === "RENT"
-      )
-      .map((item: OrderItem) => ({
-        product: item.product,
-        totalAmount: order.totalAmount,
-        startDate: item.startDate,
-        endDate: item.endDate,
-      }))
+  const product: LendedProduct[] = data.getUserRentals.flatMap(
+    (rental: Rental) =>
+      rental.items
+        .filter((item: OrderItem) => item.orderType === "RENT")
+        .map((item: OrderItem) => ({
+          product: item.product,
+          totalAmount: rental.totalAmount,
+          startDate: item.startDate,
+          endDate: item.endDate,
+        }))
   );
 
   return (
